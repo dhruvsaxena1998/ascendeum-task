@@ -52,7 +52,7 @@ export function operate(a: number, b: number, operator: string) {
 }
 
 export function removeExtraSpaces(input: string) {
-  return input.replace(/\s+/g, "");
+  return input.replace(/\s+/g, "").match(/([0-9a-zA-Z]+|[*+-\\/\\(\\)])/g);
 }
 
 export function formatExpression(

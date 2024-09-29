@@ -3,34 +3,34 @@ import { infixToPostfix, evaluatePostfix, calculate } from "./math";
 
 describe("[infixToPostfix]", () => {
   test("should convert simple arithmetic expressions", () => {
-    expect(infixToPostfix("2 + 3")).toBe("23+");
-    expect(infixToPostfix("5 - 1")).toBe("51-");
-    expect(infixToPostfix("4 * 6")).toBe("46*");
-    expect(infixToPostfix("8 / 2")).toBe("82/");
+    expect(infixToPostfix("2 + 3")).toBe("2 3 +");
+    expect(infixToPostfix("5 - 1")).toBe("5 1 -");
+    expect(infixToPostfix("4 * 6")).toBe("4 6 *");
+    expect(infixToPostfix("8 / 2")).toBe("8 2 /");
   });
 
   test("should handle expressions with multiple operators", () => {
-    expect(infixToPostfix("2 + 3 * 4 - 5")).toBe("234*+5-");
-    expect(infixToPostfix("(2 + 3) * 4")).toBe("23+4*");
-    expect(infixToPostfix("2 * (3 + 4) / 5")).toBe("234+*5/");
+    expect(infixToPostfix("2 + 3 * 4 - 5")).toBe("2 3 4 * + 5 -");
+    expect(infixToPostfix("(2 + 3) * 4")).toBe("2 3 + 4 *");
+    expect(infixToPostfix("2 * (3 + 4) / 5")).toBe("2 3 4 + * 5 /");
   });
 
   test("should handle expressions with variables", () => {
-    expect(infixToPostfix("a + b")).toBe("ab+");
-    expect(infixToPostfix("x - y")).toBe("xy-");
-    expect(infixToPostfix("p * q + r / s")).toBe("pq*rs/+");
+    expect(infixToPostfix("a + b")).toBe("a b +");
+    expect(infixToPostfix("x - y")).toBe("x y -");
+    expect(infixToPostfix("p * q + r / s")).toBe("p q * r s / +");
   });
 
   test("should handle expressions with both numbers and variables", () => {
-    expect(infixToPostfix("2 * a + 3 * b")).toBe("2a*3b*+");
-    expect(infixToPostfix("(x + y) * 4 / z")).toBe("xy+4*z/");
-    expect(infixToPostfix("a * b - c / d")).toBe("ab*cd/-");
+    expect(infixToPostfix("2 * a + 3 * b")).toBe("2 a * 3 b * +");
+    expect(infixToPostfix("(x + y) * 4 / z")).toBe("x y + 4 * z /");
+    expect(infixToPostfix("a * b - c / d")).toBe("a b * c d / -");
   });
 
   test("should handle expressions with extra spaces", () => {
-    expect(infixToPostfix("2 +   3")).toBe("23+");
-    expect(infixToPostfix("  4 * 6  ")).toBe("46*");
-    expect(infixToPostfix("(2 + 3)   * 4")).toBe("23+4*");
+    expect(infixToPostfix("2 +   3")).toBe("2 3 +");
+    expect(infixToPostfix("  4 * 6  ")).toBe("4 6 *");
+    expect(infixToPostfix("(2 + 3)   * 4")).toBe("2 3 + 4 *");
   });
 });
 
@@ -57,12 +57,12 @@ describe("[evaluatePostfix]", () => {
   });
 
   test("should evaluate expressions with exponents", () => {
-    let result = evaluatePostfix(infixToPostfix("22^4+56-6^2"));
+    let result = evaluatePostfix(infixToPostfix("22 ^ 4 + 56 - 6 ^ 2"));
     if (result.isOk()) {
       expect(result.value).toBe(36);
     }
 
-    result = evaluatePostfix(infixToPostfix("2+3^4"));
+    result = evaluatePostfix(infixToPostfix("2 + 3 ^ 4"));
     if (result.isOk()) {
       expect(result.value).toBe(83);
     }
@@ -143,7 +143,7 @@ describe("[calculate expressions]", () => {
     }
 
     result = calculate({
-      formula: "x^y/z",
+      formula: "x ^ y / z",
       variables: {
         x: 2,
         y: 3,
@@ -180,7 +180,7 @@ describe("[calculate expressions]", () => {
     }
   });
 
-  test("should calculate expressions with variables without operators", () => {
+  test("should calculate expressions with variables with operators", () => {
     let result = calculate({
       formula: "2a + b",
       variables: {
@@ -193,7 +193,7 @@ describe("[calculate expressions]", () => {
     }
 
     result = calculate({
-      formula: "2x^y/z",
+      formula: "2x ^ y / z",
       variables: {
         x: 2,
         y: 3,
@@ -202,6 +202,31 @@ describe("[calculate expressions]", () => {
     });
     if (result.isOk()) {
       expect(result.value).toBe(8);
+    }
+  });
+
+  test("should calculate expressions with variables with multi digit numbers", () => {
+    let result = calculate({
+      formula: "2a + b",
+      variables: {
+        a: 29,
+        b: 32,
+      },
+    });
+    if (result.isOk()) {
+      expect(result.value).toBe(90);
+    }
+
+    result = calculate({
+      formula: "2a + b - z",
+      variables: {
+        a: 110,
+        b: 29,
+        z: 33
+      },
+    });
+    if (result.isOk()) {
+      expect(result.value).toBe(216);
     }
   });
 });

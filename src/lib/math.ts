@@ -10,6 +10,9 @@ import {
 
 export function infixToPostfix(expression: string) {
   const infix = removeExtraSpaces(expression);
+  if (!infix) {
+    return "";
+  }
 
   // Initialize an empty stack and an empty postfix array
   const stack = [];
@@ -60,13 +63,13 @@ export function infixToPostfix(expression: string) {
     postfix.push(stack.pop());
   }
 
-  return postfix.join("");
+  return postfix.join(" ");
 }
 
 export const evaluatePostfix = (expression: string) => {
   const stack: number[] = [];
 
-  for (const token of expression) {
+  for (const token of expression.split(" ")) {
     // If the token is an operand, push it onto the stack
     if (isOperand(token)) {
       stack.push(Number(token));
@@ -107,7 +110,6 @@ export const calculate = (options: ICalculateOptions) => {
   }
 
   const expression = formatExpression(formula, variables);
-
   return evaluate(expression);
 };
 
