@@ -13,7 +13,7 @@ export const FormulaInput = () => {
   const handleInput = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
 
-    const allowedCharacterSet = /^[0-9a-zA-Z+\-*^/]*$/;
+    const allowedCharacterSet = /^[0-9a-zA-Z+\-*^\\(\\)/]*$/;
 
     const isValidInput = allowedCharacterSet.test(value);
     if (isValidInput) {

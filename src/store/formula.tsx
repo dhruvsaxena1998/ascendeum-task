@@ -13,7 +13,7 @@ type FormulaStore = {
 export const useFormulaStore = create<FormulaStore>()((set) => ({
   formula: "",
   variables: {},
-  result: null,
+  result: 0,
 
   setFormula: (value) => set(() => ({ formula: value })),
   setVariables: (value) => set(() => ({ variables: value })),

@@ -222,13 +222,12 @@ describe("[calculate expressions]", () => {
       variables: {
         a: 110,
         b: 29,
-        z: 33
+        z: 33,
       },
     });
     if (result.isOk()) {
       expect(result.value).toBe(216);
     }
-
 
     result = calculate({
       formula: "2a + b",
@@ -250,6 +249,28 @@ describe("[calculate expressions]", () => {
     });
     if (result.isOk()) {
       expect(result.value).toBe(625);
+    }
+  });
+
+  test("should calculate expression with parentheses", () => {
+    let result = calculate({
+      formula: "(2+3)*4",
+      variables: {},
+    });
+    if (result.isOk()) {
+      expect(result.value).toBe(20);
+    }
+
+    result = calculate({
+      formula: "(a+b)^2",
+      variables: {
+        a: 10,
+        b: 10,
+      },
+    });
+
+    if (result.isOk()) {
+      expect(result.value).toBe(400);
     }
   });
 });

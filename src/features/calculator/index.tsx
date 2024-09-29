@@ -61,13 +61,13 @@ export const Calculator = () => {
     <Card className="w-full md:w-1/2 mx-auto">
       <CardHeader className="poppins-bold">Formula Calculator</CardHeader>
       <CardContent>
-        <div className="flex items-center justify-center space-4 rounded-md border p-2 my-2 default-bg">
-          <p className="poppins-regular">
+        <div className="flex items-center space-4 rounded-md border p-2 my-2 default-bg">
+          <p className="consolas">
             Result: &nbsp;
-            {result === null ? (
+            {formula.length !== 0 && result === null ? (
               <span className="text-red-600">Invalid Expression</span>
             ) : (
-              <span className="text-green-600">{result}</span>
+              <span className="text-green-600">{result ?? 'N/A'}</span>
             )}
           </p>
         </div>
