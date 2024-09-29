@@ -59,7 +59,7 @@ describe("[evaluatePostfix]", () => {
   test("should evaluate expressions with exponents", () => {
     let result = evaluatePostfix(infixToPostfix("22 ^ 4 + 56 - 6 ^ 2"));
     if (result.isOk()) {
-      expect(result.value).toBe(36);
+      expect(result.value).toBe(234276);
     }
 
     result = evaluatePostfix(infixToPostfix("2 + 3 ^ 4"));
@@ -227,6 +227,29 @@ describe("[calculate expressions]", () => {
     });
     if (result.isOk()) {
       expect(result.value).toBe(216);
+    }
+
+
+    result = calculate({
+      formula: "2a + b",
+      variables: {
+        a: 10,
+        b: 92,
+      },
+    });
+    if (result.isOk()) {
+      expect(result.value).toBe(112);
+    }
+
+    result = calculate({
+      formula: "a^2+2ab+b^2",
+      variables: {
+        a: 10,
+        b: 15,
+      },
+    });
+    if (result.isOk()) {
+      expect(result.value).toBe(625);
     }
   });
 });

@@ -27,11 +27,7 @@ export function isOperator(char: string) {
 }
 
 export function isOperand(char: string) {
-  return (
-    (char >= "a" && char <= "z") ||
-    (char >= "A" && char <= "Z") ||
-    (char >= "0" && char <= "9")
-  );
+  return /[a-zA-Z0-9]+/g.test(char);
 }
 
 export function operate(a: number, b: number, operator: string) {
@@ -52,7 +48,7 @@ export function operate(a: number, b: number, operator: string) {
 }
 
 export function removeExtraSpaces(input: string) {
-  return input.replace(/\s+/g, "").match(/([0-9a-zA-Z]+|[*+-\\/\\(\\)])/g);
+  return input.replace(/\s+/g, "").match(/([0-9a-zA-Z]+|[*\\^+-\\/\\(\\)])/g);
 }
 
 export function formatExpression(
